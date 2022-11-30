@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Alert from './components/AlertComponent';
+import Input from './components/Input/InputComponent';
 
 function App() {
+  const [users, setUsers] = useState([]);
+  const [currentInput, setCurrentInput] = useState([]);
+
+  const inputSubmitted = (array) => {
+    if (array[0] && array[1]) {
+      //Simple check for being null/undefined
+      setUsers((prev) => {
+        return [...prev, array];
+      });
+    } else console.log('????');
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Input className="items" passInputs={inputSubmitted}></Input>
+      {/* <Alert params={  } /> */}
     </div>
   );
 }
