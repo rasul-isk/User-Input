@@ -1,24 +1,34 @@
 import './App.css';
 import { useState } from 'react';
-import Alert from './components/AlertComponent';
 import Input from './components/Input/InputComponent';
-
+import Users from './components/Users/UserComponent';
+import Alert from './components/Alert/AlertComponent';
 function App() {
   const [users, setUsers] = useState([]);
-  const [currentInput, setCurrentInput] = useState([]);
+  const [info, setInfo] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const userClicked = () => {
+    setInfo('');
+    setAlertVisible(false);
+  };
 
   const inputSubmitted = (array) => {
-    if (array[0] && array[1]) {
+    if (array[0] && array[1] && !(array[1]<0)) {
       //Simple check for being null/undefined
       setUsers((prev) => {
         return [...prev, array];
       });
-    } else console.log('????');
+    } else {
+      setInfo('Entered wrong value!');
+      setAlertVisible(true);
+    }
   };
   return (
-    <div>
-      <Input className="items" passInputs={inputSubmitted}></Input>
-      {/* <Alert params={  } /> */}
+    <div className="items">
+      {!alertVisible && <Input passInputs={inputSubmitted}></Input>}
+      {!alertVisible && <Users items={users} />}
+      {alertVisible && <Alert items={info} clickHandle={userClicked} />}
     </div>
   );
 }
